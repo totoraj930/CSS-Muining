@@ -1,0 +1,262 @@
+*, *:before, *:after {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	box-sizing: border-box;
+	font-family: "Helvetica Neue", "メイリオ", Meiryo, Helvetica, Arial, "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	background: transparent;
+	z-index: 1;
+	color: #fff;
+	background: #222;
+	text-align: center;
+}
+
+header {
+	padding-top: 5em;
+	padding-bottom: 2em;
+}
+h1 {
+	position: relative;
+	font-size: 30px;
+	line-height: 1;
+	font-size: 3em;
+	text-shadow:
+		1px 1px 3px #000;
+}
+
+p {
+	text-shadow: 1px 1px 3px #000;
+}
+
+.t-mu {
+	position: relative;
+	display: inline-block;
+	font-size: 2em;
+	color: #222;
+	text-shadow: 0 0 10px #000;
+	vertical-align: middle;
+	&:after {
+		content: "MU";
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		color: #fff;
+		text-align: center;
+		font-size: .5em;
+		line-height: 2em;
+		text-shadow: 0 0 5px #fff;
+	}
+}
+
+p {
+	line-height: 1.5;
+	margin: 1em;
+}
+
+.anime-label {
+	position: relative;
+	display: inline-block;
+	padding: .5em .8em .5em 34px;
+	line-height: 1;
+	background: #fff;
+	color: #222;
+	font-weight: bold;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .8);
+	cursor: pointer;
+	&:before,
+	&:after {
+		content: "";
+		position: absolute;
+		top: 50%;
+	}
+	&:before {
+		width: 16px;
+		height: 16px;
+		left: 9px;
+		margin-top: -8px;
+		background: #fff;
+		border: 2px solid #222;
+	}
+	&:after {
+		width: 8px;
+		height: 8px;
+		left: 13px;
+		margin-top: -4px;
+	}
+}
+#anime-checkbox:checked + .anime-label::after {
+	background: #222;
+}
+#anime-checkbox {
+	display: none;
+}
+
+
+@function tjHsl($num, $s: 200) {
+	@return hsl($num, $s, 60);
+}
+
+.anime-wrap {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
+.anime-span-wrap {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	transform: scale(2);
+	z-index: -1;
+	span {
+		display: block;
+		width: 200%;
+		height: 2px;
+		margin-left: -50%;
+		margin-top: -1px;
+		background: transparent;
+	}
+}
+@for $i from 1 through 1000 {
+	$aName: anime-#{$i};
+	$rMin: 200;
+	$rMax: 290;
+	$n: $i / 1000 * ($rMax - $rMin) + $rMin;
+	#anime-checkbox:checked + .anime-label + .anime-wrap .anime-span-wrap span:nth-child(#{$i}) {
+		animation-name: $aName;
+		animation-duration: 400ms;
+		animation-delay: $i*2ms;
+		animation-iteration-count: 50;
+		animation-direction: alternate;
+		animation-timing-function: linear;
+		animation-fill-mode: none;
+	}
+
+	@keyframes #{$aName} {
+		0% {
+			background: tjHsl($n);
+			background: linear-gradient(to right, tjHsl($n), tjHsl($rMax - ($n - $rMin)));
+			transform: rotateZ(5deg);
+			opacity: 1;
+		}
+		100% {
+			background: tjHsl($rMax - ($n - $rMin));
+			background: linear-gradient(to right, tjHsl($rMax - ($n - $rMin)), tjHsl($n));
+			transform: rotateZ(-5deg);
+			opacity: .8;
+		}
+	}
+}
+
+$c-p-top: #fff;
+$c-p-bar: #fff;
+
+@keyframes pickaxe1 {
+	0% {
+		transform: rotateZ(-45deg);
+	}
+	100% {
+		transform: rotateZ(0deg);
+	}
+}
+#anime-checkbox:checked + .anime-label + .anime-wrap {
+
+	.pickaxe {
+		position: fixed;
+		display: block;
+		width: 500px;
+		height: 500px;
+		top: 50%;
+		left: 50%;
+		margin-top: -250px;
+		margin-left: -250px;
+		z-index: 0;
+		overflow: hidden;
+		transform-origin: 75% center;
+		transform: rotateZ(-45deg);
+		animation-name: pickaxe1;
+		animation-duration: 400ms;
+		animation-direction: alternate;
+		animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+		animation-iteration-count: 50;
+	
+		.top {
+			position: absolute;
+			width: 100%;
+			height: 10%;
+			top: 5%;
+			left: 0;
+			// background: #fff;
+			overflow: hidden;
+			&:before, &:after {
+				content: "";
+				position: absolute;
+				display: block;
+				width: 200%;
+				height: 70%;
+				background: $c-p-top;
+	
+			}
+			&:before {
+				top: 0;
+				right: 60%;
+				transform-origin: center right;
+				transform: rotateZ(-8deg) matrix3d(1,0,0.00,-0.003,0.00,1,0.00,0,0,0,1,0,0,0,0,1);
+			}
+			&:after {
+				top: 0;
+				left: 60%;
+				transform-origin: center left;
+				transform: rotateZ(8deg) matrix3d(1,0,0.00,0.003,0.00,1,0.00,0,0,0,1,0,0,0,0,1);
+			}
+		}
+		.top2 {
+			position: absolute;
+			width: 30%;
+			height: 8%;
+			top: 5%;
+			left: 50%;
+			margin-left: -15%;
+			background: $c-p-top;
+			border-radius: 10%;
+			&:after {
+				content: "";
+				position: absolute;
+				display: block;
+				width: 42%;
+				height: 300%;
+				top: 0;
+				left: 50%;
+				margin-top: -10%;
+				margin-left: -21%;
+				background: $c-p-top;
+				border-radius: 10%;
+			}
+		}
+		.bar {
+			position: absolute;
+			width: 10%;
+			height: 100%;
+			top: -5%;
+			left: 50%;
+			margin-left: -5%;
+			background: $c-p-bar;
+			transform: matrix3d(1,0,0.00,0,0.00,1,0.00,-0.001,0,0,1,0,0,0,0,1);
+		}
+	}
+}
